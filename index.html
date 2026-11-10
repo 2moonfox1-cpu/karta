@@ -62,14 +62,29 @@
   .cell.hint .q{opacity:1}
   @keyframes hintp{50%{box-shadow: inset 0 0 0 3px #fff3b0, 0 0 26px rgba(242,194,48,1)}}
   .cell.flash{animation:flash .6s}
-  .bonus{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-  @media (max-width:520px){ .bonus{grid-template-columns:1fr} }
-  .bon{background:#0f0809; border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center}
-  .bon .i{font-size:26px} .bon b{display:block; font-size:20px; margin-top:2px} .bon small{color:var(--muted); font-size:12px; display:block}
-  .bon button{margin-top:8px; padding:7px 10px; font-size:13px; width:100%}
-  .bon button:disabled{opacity:.35; cursor:default}
-  .bon button.on{background:#f2c230; border-color:#f2c230; color:#1a1300}
-  .bon.got{border-color:var(--red2); box-shadow:0 0 12px rgba(217,42,67,.25)}
+  .bonus{display:flex; flex-wrap:wrap; align-items:center; gap:8px}
+  .bonus .lbl2{color:var(--muted); font-size:14px; margin-right:2px}
+  .bon{display:inline-flex; align-items:center; gap:6px; background:#0f0809; border:1px solid var(--line); border-radius:20px; padding:6px 12px; font-size:18px}
+  .bon b{font-size:16px; color:var(--cream)}
+  .bon.got{border-color:var(--red2); box-shadow:0 0 10px rgba(217,42,67,.3)}
+  #cloverBtn{padding:7px 12px; font-size:13px; border-radius:20px; margin-left:auto}
+  #cloverBtn:disabled{display:none}
+  #cloverBtn.on{background:#f2c230; border-color:#f2c230; color:#1a1300}
+  /* телефон и узкое окно ВК: всё в одну колонку в удобном порядке */
+  @media (max-width:960px){
+    .wrap{padding:14px 8px 40px}
+    header{margin-bottom:12px} h1{font-size:26px} .sub{font-size:13px}
+    .layout{display:flex; flex-direction:column; gap:12px; align-items:stretch}
+    .panel{display:contents !important}
+    .boardWrap{align-self:center; padding:8px}
+    .card{padding:12px 14px}
+    .card h2{font-size:16px; margin-bottom:8px}
+    .stats{grid-template-columns:repeat(4,1fr) !important; gap:6px}
+    .stat{padding:6px 4px} .stat b{font-size:17px} .stat small{font-size:10.5px; line-height:1.15; display:block}
+    .c-win{order:0} .c-stats{order:1} .c-cross{order:2} .c-bonus{order:3}
+    .boardWrap{order:4} .c-open{order:5} .c-log{order:6} .c-rules{order:7} .footer{order:8}
+    .legend{font-size:11.5px; gap:6px 10px}
+  }
   @keyframes flash{0%{transform:scale(1.25); filter:brightness(1.8)}100%{transform:scale(1)}}
   .legend{display:flex; flex-wrap:wrap; gap:10px 16px; margin-top:14px; font-size:13px; color:var(--muted)}
   .legend span{display:inline-flex; align-items:center; gap:6px}
@@ -136,12 +151,12 @@
     </div>
 
     <div class="panel">
-      <div class="card win" id="win">
+      <div class="card win c-win" id="win">
         <h2>Сундук с сокровищами найден!</h2>
         <div id="winText"></div>
       </div>
 
-      <div class="card">
+      <div class="card c-stats">
         <div class="stats">
           <div class="stat"><b id="sBalance">0</b><small>крестиков на счету</small></div>
           <div class="stat"><b id="sMoves">0</b><small>ходов доступно</small></div>
@@ -150,16 +165,17 @@
         </div>
       </div>
 
-      <div class="card">
-        <h2>Мои находки</h2>
+      <div class="card c-bonus">
         <div class="bonus">
-          <div class="bon" id="bL"><div class="i">🔍</div><b id="vL">—</b><small>Лупа подсвечивает верный следующий шаг</small></div>
-          <div class="bon" id="bK"><div class="i">🧭</div><b id="vK">0</b><small>бесплатных ходов от компаса</small></div>
-          <div class="bon" id="bC"><div class="i">🍀</div><b id="vC">0</b><small>клеверов: открой любую клетку на поле</small><button id="cloverBtn">Использовать клевер</button></div>
+          <span class="lbl2">Находки:</span>
+          <span class="bon" id="bL" title="Лупа: подсвечивает клетку, куда идти">🔍 <b id="vL">—</b></span>
+          <span class="bon" id="bK" title="Компас: бесплатные ходы">🧭 <b id="vK">0</b></span>
+          <span class="bon" id="bC" title="Клевер: открыть любую клетку на поле">🍀 <b id="vC">0</b></span>
+          <button id="cloverBtn">🍀 Использовать</button>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card c-cross">
         <h2>1. Сколько крестиков отшила?</h2>
         <div class="row">
           <input id="crossIn" type="number" min="1" step="1" placeholder="Например, 600">
@@ -168,7 +184,7 @@
         <div class="msg" id="crossMsg"></div>
       </div>
 
-      <div class="card">
+      <div class="card c-open">
         <h2>2. Какую клетку открыть?</h2>
         <div class="cost" id="costLine"></div>
         <div class="row">
@@ -179,12 +195,12 @@
         <div class="msg" id="openMsg"></div>
       </div>
 
-      <div class="card">
+      <div class="card c-log">
         <h2>Мой путь</h2>
         <ul class="log" id="log"></ul>
       </div>
 
-      <div class="card">
+      <div class="card c-rules">
         <details>
           <summary>Правила игры</summary>
           <ul>
@@ -540,7 +556,7 @@ ${ship(140,140,.8)}${ship(105,665,.6)}
     $('vK').textContent = S.free; $('vC').textContent = S.clover;
     $('bL').classList.toggle('got', !!S.hint && !S.won); $('bK').classList.toggle('got', S.free>0); $('bC').classList.toggle('got', S.clover>0);
     const cb = $('cloverBtn'); cb.disabled = S.clover<1 || S.won;
-    cb.classList.toggle('on', cloverArmed); cb.textContent = cloverArmed ? 'Клевер включён — выбери клетку' : 'Использовать клевер';
+    cb.classList.toggle('on', cloverArmed); cb.textContent = cloverArmed ? '🍀 Выбери клетку' : '🍀 Использовать';
     $('sTotal').textContent = S.total.toLocaleString('ru-RU');
     $('sOpened').textContent = Object.keys(S.opened).length;
     $('costLine').innerHTML = S.won ? 'Игра пройдена!' :
